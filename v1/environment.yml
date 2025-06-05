@@ -1,0 +1,16 @@
+name: ptorchy
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.8
+  - pytorch
+  - pytorch-cuda
+  - numpy
+  - scipy
+  - pip
+  - pip:
+    - openai>=1.0.0
+    - python-dotenv>=1.0.0 

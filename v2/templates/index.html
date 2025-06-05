@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Testing Web Application - v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+
+        .test-section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .test-section h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        select, textarea, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, textarea:focus, input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .results h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .success {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .info-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card p {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .architecture-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .architecture-table th,
+        .architecture-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .architecture-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .response-text {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Testing Web Application</h1>
+            <p class="subtitle">Test OpenAI models and neural network capabilities</p>
+        </header>
+
+        <!-- OpenAI Testing Section -->
+        <div class="test-section">
+            <h2>🤖 OpenAI Model Testing</h2>
+            <form id="openai-form">
+                <div class="form-group">
+                    <label for="model-select">Select Model:</label>
+                    <select id="model-select" name="model">
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4o-mini">GPT-4o Mini</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="query-input">Your Query:</label>
+                    <textarea id="query-input" name="query" placeholder="Enter your question or prompt here..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn" id="openai-btn">Test OpenAI API</button>
+            </form>
+
+            <div id="openai-loading" class="loading">Processing your request...</div>
+            <div id="openai-results" class="results" style="display: none;">
+                <h3>Results</h3>
+                <div id="openai-content"></div>
+            </div>
+        </div>
+
+        <!-- Neural Network Testing Section -->
+        <div class="test-section">
+            <h2>🧠 Neural Network Testing</h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d;">
+                Test a 4-layer Inception-based CNN architecture to verify GPU compatibility, 
+                memory usage, and model execution capabilities.
+            </p>
+            
+            <button type="button" class="btn" id="nn-btn">Run Neural Network Test</button>
+
+            <div id="nn-loading" class="loading">Creating and testing neural network...</div>
+            <div id="nn-results" class="results" style="display: none;">
+                <h3>Neural Network Test Results</h3>
+                <div id="nn-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // OpenAI Form Handler
+        document.getElementById('openai-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const model = formData.get('model');
+            const query = formData.get('query');
+            
+            if (!query.trim()) {
+                alert('Please enter a query');
+                return;
+            }
+            
+            // Show loading, hide results
+            document.getElementById('openai-loading').style.display = 'block';
+            document.getElementById('openai-results').style.display = 'none';
+            document.getElementById('openai-btn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/openai_test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ model, query })
+                });
+                
+                const data = await response.json();
+                
+                // Hide loading
+                document.getElementById('openai-loading').style.display = 'none';
+                document.getElementById('openai-btn').disabled = false;
+                
+                // Show results
+                const resultsDiv = document.getElementById('openai-results');
+                const contentDiv = document.getElementById('openai-content');
+                
+                if (data.success) {
+                    contentDiv.innerHTML = `
+                        <div class="success">✅ OpenAI API test completed successfully!</div>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h4>Model Information</h4>
+                                <p><strong>Model:</strong> ${data.model}</p>
+                                <p><strong>Response Time:</strong> ${data.response_time}s</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>Token Usage</h4>
+                                <p><strong>Prompt Tokens:</strong> ${data.usage.prompt_tokens}</p>
+                                <p><strong>Completion Tokens:</strong> ${data.usage.completion_tokens}</p>
+                                <p><strong>Total Tokens:</strong> ${data.usage.total_tokens}</p>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top: 20px; margin-bottom: 10px;">Query:</h4>
+                        <div class="response-text">${data.query}</div>
+                        
+                        <h4 style="margin-top: 20px; margin-bottom: 10px;">Response:</h4>
+                        <div class="response-text">${data.response}</div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = `
+                        <div class="error">❌ Error: ${data.error}</div>
+                    `;
+                }
+                
+                resultsDiv.style.display = 'block';
+                
+            } catch (error) {
+                document.getElementById('openai-loading').style.display = 'none';
+                document.getElementById('openai-btn').disabled = false;
+                document.getElementById('openai-content').innerHTML = `
+                    <div class="error">❌ Network error: ${error.message}</div>
+                `;
+                document.getElementById('openai-results').style.display = 'block';
+            }
+        });
+
+        // Neural Network Test Handler
+        document.getElementById('nn-btn').addEventListener('click', async function() {
+            // Show loading, hide results
+            document.getElementById('nn-loading').style.display = 'block';
+            document.getElementById('nn-results').style.display = 'none';
+            document.getElementById('nn-btn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/neural_network_test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                // Hide loading
+                document.getElementById('nn-loading').style.display = 'none';
+                document.getElementById('nn-btn').disabled = false;
+                
+                // Show results
+                const resultsDiv = document.getElementById('nn-results');
+                const contentDiv = document.getElementById('nn-content');
+                
+                if (data.success) {
+                    let memoryInfo = '';
+                    if (data.memory_usage && Object.keys(data.memory_usage).length > 0) {
+                        memoryInfo = `
+                            <div class="info-card">
+                                <h4>Memory Usage</h4>
+                                <p><strong>Used:</strong> ${data.memory_usage.memory_used_gb} GB (${data.memory_usage.memory_used_percent}%)</p>
+                                <p><strong>Total:</strong> ${data.memory_usage.memory_total_gb} GB</p>
+                            </div>
+                        `;
+                    }
+                    
+                    let architectureTable = `
+                        <table class="architecture-table">
+                            <thead>
+                                <tr>
+                                    <th>Layer</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Output Shape</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    data.architecture.forEach(layer => {
+                        architectureTable += `
+                            <tr>
+                                <td>${layer.layer}</td>
+                                <td>${layer.type}</td>
+                                <td>${layer.description}</td>
+                                <td>${layer.output_shape}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    architectureTable += '</tbody></table>';
+                    
+                    contentDiv.innerHTML = `
+                        <div class="success">✅ Neural network test completed successfully!</div>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h4>Execution Info</h4>
+                                <p><strong>Device:</strong> ${data.device_used}</p>
+                                <p><strong>CUDA Available:</strong> ${data.cuda_available ? 'Yes' : 'No'}</p>
+                                <p><strong>Processing Time:</strong> ${data.processing_time}s</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>Model Statistics</h4>
+                                <p><strong>Total Parameters:</strong> ${data.model_stats.total_parameters}</p>
+                                <p><strong>Model Size:</strong> ${data.model_stats.model_size_mb} MB</p>
+                                <p><strong>Forward Pass:</strong> ${data.test_results.forward_pass}</p>
+                            </div>
+                            ${memoryInfo}
+                        </div>
+                        
+                        <h4 style="margin-top: 25px; margin-bottom: 15px;">Network Architecture:</h4>
+                        ${architectureTable}
+                        
+                        <div class="info-grid" style="margin-top: 20px;">
+                            <div class="info-card">
+                                <h4>Test Input</h4>
+                                <p><strong>Shape:</strong> ${JSON.stringify(data.test_results.input_shape)}</p>
+                                <p><strong>Description:</strong> Batch of 4 RGB images (224×224)</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>Test Output</h4>
+                                <p><strong>Shape:</strong> ${JSON.stringify(data.test_results.output_shape)}</p>
+                                <p><strong>Description:</strong> Classification scores for 10 classes</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = `
+                        <div class="error">❌ Error: ${data.error}</div>
+                    `;
+                }
+                
+                resultsDiv.style.display = 'block';
+                
+            } catch (error) {
+                document.getElementById('nn-loading').style.display = 'none';
+                document.getElementById('nn-btn').disabled = false;
+                document.getElementById('nn-content').innerHTML = `
+                    <div class="error">❌ Network error: ${error.message}</div>
+                `;
+                document.getElementById('nn-results').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

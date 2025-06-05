@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearts of Iron IV Script Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .input-section, .output-section {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .code-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 2px solid #333;
+        }
+
+        .code-output.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        .copy-btn {
+            background: #27ae60;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .examples {
+            margin-top: 20px;
+        }
+
+        .example-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 1px solid #e9ecef;
+        }
+
+        .example-item:hover {
+            background: #e9ecef;
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .example-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .example-request {
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2a5298;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .success {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting for HOI4 code */
+        .hoi4-comment { color: #608b4e; }
+        .hoi4-string { color: #ce9178; }
+        .hoi4-number { color: #b5cea8; }
+        .hoi4-keyword { color: #569cd6; }
+        .hoi4-property { color: #9cdcfe; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Hearts of Iron IV Script Generator</h1>
+            <p class="subtitle">Transform natural language into HOI4 scripting code</p>
+            <p>Simply describe what you want to achieve in Hearts of Iron IV, and get properly formatted scripting code!</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">
+                    📝 Script Request
+                </h2>
+                
+                <form id="generator-form">
+                    <div class="form-group">
+                        <label for="request-input">Describe what you want to achieve:</label>
+                        <textarea 
+                            id="request-input" 
+                            name="request" 
+                            placeholder="e.g., Create code to increment all the user's land productivity by 10%"
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="generate-btn">
+                        🚀 Generate HOI4 Code
+                    </button>
+                </form>
+
+                <div id="loading" class="loading">Generating your HOI4 code...</div>
+
+                <!-- Examples Section -->
+                <div class="examples">
+                    <h3 class="section-title">💡 Example Requests</h3>
+                    <div id="examples-container">
+                        <!-- Examples will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <h2 class="section-title">
+                    ⚡ Generated Code
+                </h2>
+                
+                <div id="output-controls" style="display: none;">
+                    <button class="btn copy-btn" id="copy-btn">📋 Copy Code</button>
+                    <span id="copy-feedback" style="display: none; color: #27ae60; font-weight: 600;">Copied!</span>
+                </div>
+
+                <div id="result-container">
+                    <div class="code-output empty" id="code-output">
+                        Generated HOI4 code will appear here...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load examples on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExamples();
+        });
+
+        // Form submission handler
+        document.getElementById('generator-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const requestText = document.getElementById('request-input').value.trim();
+            
+            if (!requestText) {
+                alert('Please enter a request description');
+                return;
+            }
+            
+            // Show loading, hide previous results
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('generate-btn').disabled = true;
+            document.getElementById('output-controls').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ request: requestText })
+                });
+                
+                const data = await response.json();
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generate-btn').disabled = false;
+                
+                // Show results
+                const resultContainer = document.getElementById('result-container');
+                const codeOutput = document.getElementById('code-output');
+                
+                if (data.success) {
+                    // Show success message
+                    resultContainer.innerHTML = `
+                        <div class="success">✅ HOI4 code generated successfully!</div>
+                        <div class="code-output" id="code-output">${escapeHtml(data.code)}</div>
+                    `;
+                    
+                    // Show copy controls
+                    document.getElementById('output-controls').style.display = 'block';
+                } else {
+                    // Show error
+                    resultContainer.innerHTML = `
+                        <div class="error">❌ Error: ${data.error}</div>
+                        <div class="code-output empty">Please try rephrasing your request or check the examples.</div>
+                    `;
+                }
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generate-btn').disabled = false;
+                
+                document.getElementById('result-container').innerHTML = `
+                    <div class="error">❌ Network error: ${error.message}</div>
+                    <div class="code-output empty">Please check your connection and try again.</div>
+                `;
+            }
+        });
+
+        // Copy button handler
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const codeOutput = document.getElementById('code-output');
+            const text = codeOutput.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                const feedback = document.getElementById('copy-feedback');
+                feedback.style.display = 'inline';
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 2000);
+            });
+        });
+
+        // Load examples
+        async function loadExamples() {
+            try {
+                const response = await fetch('/api/examples');
+                const data = await response.json();
+                
+                const container = document.getElementById('examples-container');
+                container.innerHTML = '';
+                
+                data.examples.forEach(example => {
+                    const exampleDiv = document.createElement('div');
+                    exampleDiv.className = 'example-item';
+                    exampleDiv.innerHTML = `
+                        <div class="example-title">${example.title}</div>
+                        <div class="example-desc">${example.description}</div>
+                        <div class="example-request">"${example.request}"</div>
+                    `;
+                    
+                    exampleDiv.addEventListener('click', function() {
+                        document.getElementById('request-input').value = example.request;
+                    });
+                    
+                    container.appendChild(exampleDiv);
+                });
+                
+            } catch (error) {
+                console.error('Failed to load examples:', error);
+            }
+        }
+
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html> 

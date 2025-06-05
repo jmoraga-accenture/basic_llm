@@ -1,0 +1,40 @@
+# Copyright (c) 2025, Jaime Moraga (jmoraga@mines.edu)
+
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# OpenAI API
+openai==1.35.3
+
+# Neural Network and ML
+# For CUDA 12.8+ (check your nvidia-smi output):
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+
+# CUDA Installation Notes:
+
+# PIP Installation:
+# For CUDA 12.8: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+# For CUDA 12.4: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+# For CUDA 12.1: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# For CPU only:   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# CONDA/MAMBA Installation:
+# Check available CUDA versions: conda search pytorch-cuda -c pytorch
+# For CUDA 12.4: conda install pytorch torchvision pytorch-cuda=12.4 -c pytorch -c nvidia
+# For CUDA 12.1: conda install pytorch torchvision pytorch-cuda=12.1 -c pytorch -c nvidia
+# For CPU only:   conda install pytorch torchvision cpuonly -c pytorch
+
+# IMPORTANT: Check PyTorch build string after installation!
+# CUDA build should contain "cuda" (e.g., py3.11_cuda12.4_cudnn9.1.0_0)
+# CPU build will contain "cpu" (e.g., cpu_mkl_py311_he84fd7d_100)
+# If you get CPU build, remove and reinstall: conda remove pytorch torchvision --yes
+
+# Utilities
+Jinja2>=3.1.0
+MarkupSafe>=2.1.0
+click>=8.1.0
+itsdangerous>=2.1.0
+blinker>=1.7.0 

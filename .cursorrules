@@ -1,0 +1,291 @@
+# .cursorrules - Specification-Driven Development Framework
+
+# Rule 1: Specifications Are Source of Truth
+# Always start with comprehensive, natural language specifications before coding.
+- Write technology-agnostic specifications that any developer can understand
+- Specifications should be clear enough for an LLM to recreate the project from scratch
+- Update specifications before making significant code changes
+- Treat SPECIFICATIONS.md as the authoritative project definition
+- For v2+: Only commit SPECIFICATIONS.md - implementations are regeneratable
+- Keep v1/ as reference baseline, but future versions only need specifications
+
+# Rule 2: Documentation as First-Class Citizen  
+# Documentation is not an afterthought—it's a core deliverable.
+- Create README.md with complete setup, usage, and troubleshooting sections
+- Include API documentation with request/response examples
+- Maintain project structure diagrams and architecture explanations
+- Write documentation that enables immediate user value
+
+# Rule 3: Security-First Development
+# Build security considerations into every aspect of development.
+- Use configuration templates for sensitive data (config.json.template)
+- Implement comprehensive .gitignore to prevent credential exposure (OpenAI credentials are in config/config.json)
+- Validate all user inputs and sanitize outputs
+- Never hard-code secrets or API keys in source code
+- Include security notes in documentation
+
+# Rule 4: User Experience First
+# Design for the end user's workflow and experience, not developer convenience.
+- Map out complete user workflows before implementing features
+- Provide real-time feedback for long-running operations
+- Implement graceful error handling with user-friendly messages
+- Test the full user journey, not just individual components
+- Single-page applications should minimize navigation complexity
+
+# Rule 5: Phase-Based Implementation
+# Break complex projects into logical, testable phases.
+- Phase 1: Core infrastructure and configuration
+- Phase 2: Primary feature implementation
+- Phase 3: Secondary features and polish
+- Each phase should deliver working, testable functionality
+- Document phase dependencies and success criteria
+
+# Rule 6: Code Quality Standards
+# Maintain high code quality with consistent standards across all files.
+- Include copyright headers: "# Copyright (c) 2025, Jaime Moraga (jmoraga@mines.edu)"
+- Use comprehensive type hints throughout Python code
+- Write Google-style docstrings for all functions and classes
+- Implement proper error handling with specific exception types
+- Follow PEP 8 style guidelines consistently
+
+# Rule 7: Framework Over Ad-Hoc Solutions
+# Establish reusable frameworks rather than one-off implementations.
+- Create project templates that can be applied to future work
+- Build modular components that can be reused across projects
+- Establish clear patterns for common tasks (config, logging, testing)
+- Document framework decisions for future reference
+
+# Rule 8: Technology-Agnostic Design
+# Design solutions that aren't locked into specific technologies.
+- Write specifications without implementation details
+- Choose technologies based on project requirements, not preferences
+- Document why specific technologies were chosen
+- Design APIs and interfaces that could be implemented in multiple languages
+
+# Rule 9: Real-World Deployment Focus
+# Build applications ready for actual use, not just demonstrations.
+- Include comprehensive dependency management (requirements.txt)
+- Provide clear installation and setup instructions
+- Implement proper logging and debugging capabilities
+- Consider cross-platform compatibility (Windows, macOS, Linux)
+- Include troubleshooting guides for common issues
+- Address hardware-specific requirements (GPU/CUDA, memory, etc.)
+- Support multiple package managers (pip, conda, mamba) when relevant
+
+# Rule 10: Incremental Value Delivery
+# Each commit should provide tangible value or move toward a working feature.
+- Start simple and build incrementally
+- Ensure the application works at each major milestone
+- Prefer working features over partially implemented complexity
+- Test early and often throughout development
+
+# Rule 11: Comprehensive Error Handling
+# Anticipate and handle all possible error conditions gracefully.
+- Validate inputs at API boundaries
+- Provide specific error messages for different failure modes
+- Log errors for debugging while showing user-friendly messages
+- Include error recovery suggestions where possible
+- Test error paths as thoroughly as success paths
+
+# Rule 12: Single Responsibility Principle
+# Each component should have one clear, well-defined purpose.
+- Functions should do one thing well
+- Classes should represent single concepts
+- Files should group related functionality logically
+- APIs should have clear, predictable interfaces
+
+# Rule 13: Modern Development Practices
+# Use current best practices and avoid deprecated patterns.
+- Use modern API patterns (e.g., OpenAI API v1+ syntax)
+- Implement responsive web design principles
+- Use semantic HTML and accessible design patterns
+- Follow RESTful API design where applicable
+
+# Rule 14: Testing and Validation Strategy
+# Build testing and validation into the development process.
+- Test both success and failure scenarios
+- Validate against original specifications regularly
+- Include integration testing for multi-component features
+- Test user workflows end-to-end
+- Verify environment setup with diagnostic commands
+- Test hardware compatibility (GPU/CPU fallback scenarios)
+
+# Rule 15: Environment and Dependency Management
+# Handle complex environment setup with comprehensive verification.
+- Provide multiple installation paths (pip, conda, mamba, etc.)
+- Include environment verification commands and expected outputs
+- Document package manager differences and potential conflicts
+- Address hardware-specific dependencies (CUDA, GPU drivers, etc.)
+- Provide debugging commands for dependency issues
+- Include build string verification for complex packages
+- Offer quick-fix commands for common environment problems
+
+# Rule 16: Knowledge Preservation
+# Document decisions, learnings, and rationale for future reference.
+- Maintain conversation summaries for complex projects
+- Document architectural decisions and trade-offs
+- Create implementation guides alongside code
+- Preserve context for why specific approaches were chosen
+
+# Development Workflow Guidelines:
+
+## Starting a New Project:
+1. Create comprehensive SPECIFICATIONS.md
+2. Set up project structure with proper .gitignore
+3. Create configuration templates and documentation
+4. Implement Phase 1 (core infrastructure)
+5. Test and validate before proceeding to Phase 2
+
+## Code Review Checklist:
+- [ ] Copyright header present
+- [ ] Type hints implemented
+- [ ] Google-style docstrings written
+- [ ] Error handling comprehensive
+- [ ] User experience tested
+- [ ] Security considerations addressed
+- [ ] Documentation updated
+- [ ] Environment verification commands included
+- [ ] Hardware compatibility tested (GPU/CPU fallback)
+- [ ] Multiple package manager paths documented
+
+## File Organization Standards:
+```
+project_root/
+├── .cursorrules             # Development framework rules
+├── README.md               # Framework overview and usage
+├── .gitignore              # Standard exclusions
+├── docs/                   # Framework documentation
+├── v1/                     # Reference implementation (keep for learning)
+│   ├── SPECIFICATIONS.md   # v1 specifications
+│   ├── src/               # Implementation code
+│   └── ...                # Full project structure
+└── v2/                     # Specification-only projects
+    └── SPECIFICATIONS.md   # Complete project definition (commit only this)
+    
+# For v2+: Implementations are generated locally, not committed
+# The SPECIFICATIONS.md should be complete enough to regenerate everything
+```
+
+# Version Control Strategy:
+
+## What to Commit:
+- **v1/**: Complete reference implementation (learning baseline)
+- **v2+/**: Only SPECIFICATIONS.md files
+- **Framework files**: .cursorrules, docs/, README.md
+- **Templates**: .gitignore templates, config templates
+
+## What NOT to Commit (v2+):
+- Implementation code (app.py, src/, etc.)
+- Dependencies (requirements.txt, package-lock.json)
+- Configuration files (config.json)
+- Build artifacts, environments, IDE files
+- Generated documentation (README.md should be generated from SPECIFICATIONS.md)
+
+## Rationale:
+- Specifications are the source of truth
+- Implementations can be regenerated from specifications
+- Reduces repository size and maintenance overhead
+- Forces specifications to be complete and accurate
+- Enables true technology-agnostic development
+
+# AI Assistant Behavioral Guidelines:
+
+## When Implementing Features:
+- Always read and refer to existing SPECIFICATIONS.md
+- Implement complete, working features rather than partial solutions
+- Include comprehensive error handling from the start
+- Test the user workflow, not just the code functionality
+
+## When Creating Documentation:
+- Write for users who have never seen the project before
+- Include complete examples with expected outputs
+- Provide troubleshooting for common issues
+- Explain both "what" and "why" in technical decisions
+
+## When Handling Errors:
+- Never ignore potential failure modes
+- Provide specific, actionable error messages
+- Log technical details while showing user-friendly messages
+- Include recovery suggestions where possible
+
+## When Dealing with Environment Issues:
+- Provide diagnostic commands to identify the root cause
+- Offer solutions for multiple package managers (pip, conda, mamba)
+- Include verification steps to confirm fixes worked
+- Address hardware-specific setup (CUDA, GPU detection, etc.)
+- Document common environment conflicts and their resolutions
+
+# USER-SPECIFIC PREFERENCES - Jaime Moraga (jmoraga@mines.edu)
+# These preferences capture the user's established patterns and defaults
+# New AI assistants should follow these to maintain consistency
+
+## Development Philosophy Preferences:
+- **Specification-First Mindset**: Always question if specifications are complete enough for LLM regeneration
+- **Technology-Agnostic Thinking**: Prefer solutions that aren't locked to specific tech stacks
+- **Real-World Focus**: Build production-ready applications, not just demos or prototypes
+- **Framework Over Features**: Create reusable patterns rather than one-off implementations
+- **Security-Conscious**: Always consider credential exposure, API key management, .gitignore completeness
+- **Documentation-Heavy**: Comprehensive READMEs, setup guides, troubleshooting sections are mandatory
+
+## Technical Stack Preferences:
+- **Python Environment**: Uses mamba/conda primarily, pip as fallback
+- **AI Integration**: When using AI APIs, provide comprehensive system prompts with guardrails
+- **Web Development**: Flask for simplicity, single-page applications, modern responsive UI
+- **Testing Approach**: Create verification scripts for primary test cases, test real user workflows
+- **Error Handling**: User-friendly messages with specific suggestions for resolution
+- **Dependency Management**: Support multiple package managers, document CUDA considerations
+
+## Code Style Preferences:
+- **Copyright Headers**: Always include "# Copyright (c) 2025, Jaime Moraga (jmoraga@mines.edu)"
+- **Type Hints**: Comprehensive typing throughout Python code
+- **Docstrings**: Google-style docstrings for all public functions and classes
+- **Code Quality**: PEP 8 compliance, meaningful variable names, comprehensive error handling
+- **File Organization**: Logical directory structure, proper separation of concerns
+- **Comments**: Explanatory comments for complex logic, inline documentation
+
+## Project Structure Preferences:
+- **Version Strategy**: v1/ for reference implementation, v2+ only SPECIFICATIONS.md
+- **Configuration**: JSON-based config with templates, secure credential handling
+- **Documentation**: README.md, SPECIFICATIONS.md, setup instructions, troubleshooting guides
+- **Testing**: Primary test case verification, real-world scenario testing
+- **Deployment**: Cross-platform compatibility, multiple installation paths documented
+
+## AI Assistant Interaction Preferences:
+- **Clarification Over Assumption**: Ask specific questions rather than making assumptions
+- **Complete Solutions**: Implement working features end-to-end, not partial implementations
+- **Specification Validation**: Always check if generated code matches original specifications
+- **Tool Usage**: Use absolute paths in terminal commands, proper error handling in tool calls
+- **Context Preservation**: Maintain conversation context, reference previous decisions
+- **Learning Integration**: Incorporate lessons learned into future development patterns
+
+## Communication Style Preferences:
+- **Technical Precision**: Be specific about technical details, versions, and configurations
+- **Problem-Solution Format**: Clear problem identification followed by actionable solutions
+- **Visual Feedback**: Use emojis and formatting for status indicators (✅❌🎯🚀etc.)
+- **Progress Tracking**: Show step-by-step progress, celebrate completed milestones
+- **Educational Value**: Explain "why" behind technical decisions, preserve learning context
+
+## Environment-Specific Preferences:
+- **Operating System**: WSL2/Ubuntu development environment awareness
+- **Hardware Considerations**: NVIDIA GPU with CUDA support, memory optimization awareness
+- **Package Management**: mamba > conda > pip preference order, build string verification
+- **Development Tools**: VS Code integration, proper interpreter configuration
+- **Network**: Local development focus, API-based external integrations when needed
+
+## Quality Assurance Preferences:
+- **Primary Test Cases**: Always implement and verify the main specification requirement
+- **Edge Case Handling**: Comprehensive error scenarios and graceful degradation
+- **User Experience**: Test complete user workflows, not just code functionality
+- **Documentation Testing**: Verify setup instructions work for new users
+- **Cross-Platform**: Test on multiple environments when possible
+
+## Decision-Making Patterns:
+- **Simplicity First**: Choose simpler solutions over complex ones when functionality is equivalent
+- **Future-Proofing**: Design for extensibility and maintainability
+- **User-Centric**: Prioritize end-user experience over developer convenience
+- **Evidence-Based**: Prefer tested patterns over experimental approaches
+- **Incremental Progress**: Deliver working functionality in logical phases
+
+# Note: These rules synthesize lessons learned from specification-driven development, 
+# focusing on creating maintainable, secure, and user-centric applications that 
+# deliver real value while maintaining high code quality standards. 

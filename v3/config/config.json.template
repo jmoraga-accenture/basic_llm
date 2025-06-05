@@ -1,0 +1,8 @@
+{
+    "openai": {
+        "api_key": "your-openai-api-key-here",
+        "model": "gpt-4o",
+        "max_tokens": 2000,
+        "temperature": 0.1
+    }
+} 
