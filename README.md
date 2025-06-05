@@ -1,10 +1,41 @@
 # Copyright (c) 2025, Jaime Moraga (jmoraga@mines.edu)
 
-# SpecFirst: AI-Native Intentional Software Development Framework
+# Agile SpecFirst: AI-Native Specification Engineering Partnership
 
 *Specification-Driven Development for the LLM Era*
 
-A framework for creating software projects from natural language specifications using AI-assisted development. This project demonstrates best practices for translating user requirements into production-ready code while maintaining high standards for architecture, testing, and documentation.
+A revolutionary framework where **Cursor Chat immediately acts as your specification engineering partner** - transforming simple queries into comprehensive specifications and then into production-ready applications. Start with a rough idea, get guided specification refinement, and end up with working software.
+
+## 🎯 **IMMEDIATE BEHAVIOR: How This Framework Works**
+
+### **When you open Cursor Chat and say ANYTHING, it should respond:**
+
+```
+🎯 I'll help you build this using Agile SpecFirst methodology!
+
+Let me understand your vision:
+- [Restates your request in different words]
+- [Identifies the type of project]
+- [Makes observation about your likely needs]
+
+First, let's refine your specifications before any implementation.
+
+📝 I need to understand:
+- WHO will use this application?
+- WHAT are the core user workflows? 
+- HOW should users interact with the system?
+- WHAT are your success criteria?
+- ANY technical constraints or preferences?
+
+Let me know these details and I'll help structure your complete specification!
+```
+
+### **What You Should NEVER See:**
+❌ Immediate code generation  
+❌ Technology assumptions without asking  
+❌ Implementation before requirements are clear  
+
+### **Test It:** Try saying "I want to build a web app" in Cursor Chat right now!
 
 ## Project Philosophy
 
@@ -43,35 +74,54 @@ This framework embodies the principle that **clear specifications lead to better
     └── SPECIFICATIONS.md        # OpenAI-powered HOI4 script generator specs
 ```
 
-## How to Use This Framework
+## 🚀 How to Use Agile SpecFirst
 
-### For Users (Specification Writers)
+### **The Revolutionary 3-Step Process**
 
-1. **Define Requirements Clearly**
-   - Write in natural language that any stakeholder can understand
-   - Focus on WHAT the system should do, not HOW to implement it
-   - Include user experience requirements and acceptance criteria
-   - Specify performance requirements and constraints
-   - Define security and compliance requirements
+#### **Step 1: Start with Cursor Chat** 
+**Just ask for what you want to build!**
+```
+You: "I want to build a tool to generate game scripts"
 
-2. **Follow the Specification Template**
-   ```
-   - Project Overview
-   - Core Requirements (by functional area)
-   - System Architecture (high-level)
-   - User Experience Requirements
-   - Performance Criteria
-   - Security Requirements
-   - Testing Requirements
-   ```
+Cursor: "🎯 I'll help you build this using Agile SpecFirst methodology!
 
-3. **Best Practices for Users**
-   - Use concrete examples and scenarios
-   - Define success criteria for each requirement
-   - Include error handling expectations
-   - Specify data formats and interfaces
-   - Consider edge cases and failure modes
-   - Write for your target audience's technical level
+Let me understand your vision:
+- Which game are you targeting? 
+- Who will use this tool?
+- How should users describe what scripts they want?
+
+First, let's refine your specifications before any implementation."
+```
+
+#### **Step 2: Iterative Specification Refinement**
+**AI acts as your specification engineering partner**
+- **Cursor guides you** through targeted questions about user experience, edge cases, performance
+- **Together you refine** rough ideas (specifications.txt) into clear requirements
+- **AI suggests** technical considerations you might not have considered
+- **You validate** each requirement to ensure it captures your vision
+
+#### **Step 3: Complete SPECIFICATIONS.md Creation**
+**From validated requirements to production-ready application**
+- **Cursor creates** comprehensive SPECIFICATIONS.md from your refined requirements
+- **You approve** the complete specification
+- **AI generates** production-ready application based on validated specifications
+- **Result**: Working software that exactly matches your validated requirements
+
+---
+
+### **🎯 For New Users: Just Start Chatting!**
+
+**Instead of writing specifications yourself:**
+1. **Open Cursor Chat** and describe what you want to build
+2. **Let AI guide you** through specification refinement
+3. **Approve the final specifications** when they capture your vision
+4. **Get your production-ready application** generated automatically
+
+**Example Starting Queries:**
+- "I need a web app to test AI models"
+- "Build me a tool to process customer data" 
+- "Create an application to generate code for my game"
+- "I want to build a dashboard for my team"
 
 ### For Developers and LLMs (Implementation)
 

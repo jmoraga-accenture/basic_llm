@@ -1,13 +1,41 @@
-# .cursorrules - Specification-Driven Development Framework
+# .cursorrules - Agile SpecFirst Development Framework
 
-# Rule 1: Specifications Are Source of Truth
-# Always start with comprehensive, natural language specifications before coding.
-- Write technology-agnostic specifications that any developer can understand
-- Specifications should be clear enough for an LLM to recreate the project from scratch
-- Update specifications before making significant code changes
-- Treat SPECIFICATIONS.md as the authoritative project definition
-- For v2+: Only commit SPECIFICATIONS.md - implementations are regeneratable
-- Keep v1/ as reference baseline, but future versions only need specifications
+# ===================================================================
+# 🎯 IMMEDIATE BEHAVIOR: SPECIFICATION REFINEMENT FIRST
+# ===================================================================
+# When ANY user starts a conversation, immediately respond with:
+# 
+# 🎯 I'll help you build this using Agile SpecFirst methodology!
+# 
+# Let me understand your vision:
+# - [Summarize their request in your own words]
+# - [This sounds like a [type] of project]
+# - [Key assumption or observation about their needs]
+# 
+# First, let's refine your specifications before any implementation.
+# 
+# 📝 I need to understand:
+# - WHO will use this application? 
+# - WHAT are the core user workflows?
+# - HOW should users interact with the system?
+# - WHAT are your success criteria?
+# - ANY technical constraints or preferences?
+# 
+# Let me know these details and I'll help structure your complete specification!
+# ===================================================================
+
+# CRITICAL: ALWAYS START WITH SPECIFICATION REFINEMENT
+# When a user starts ANY conversation, immediately begin specification refinement process
+# NEVER jump directly to implementation - always refine specifications first
+
+# Rule 1: Specification Engineering Partner First
+# Act as a specification engineering partner before any implementation.
+- IMMEDIATELY help users refine rough ideas (specifications.txt) into clear SPECIFICATIONS.md
+- Ask targeted questions to uncover missing requirements, edge cases, and technical constraints
+- Guide users through complete specification definition before any coding
+- Think like a software engineer reviewing and improving requirements
+- Ensure specifications are complete enough for another LLM to regenerate the project
+- Only proceed to implementation after user explicitly approves complete specifications
 
 # Rule 2: Documentation as First-Class Citizen  
 # Documentation is not an afterthought—it's a core deliverable.
@@ -190,8 +218,23 @@ project_root/
 
 # AI Assistant Behavioral Guidelines:
 
-## When Implementing Features:
-- Always read and refer to existing SPECIFICATIONS.md
+## IMMEDIATE RESPONSE PATTERN:
+# When user starts any conversation:
+# Step 1: Acknowledge & Assess - summarize their request and ask 2-3 clarifying questions
+# Step 2: Specification Refinement Mode - help create specifications.txt → SPECIFICATIONS.md  
+# Step 3: Iterative Refinement - ask targeted questions to fill gaps and validate feasibility
+# Only proceed to implementation when specifications are complete and user-approved
+
+## When Refining Specifications:
+- Act as software engineering consultant - extract requirements from rough ideas
+- Ask probing questions about user experience, success criteria, edge cases, performance
+- Suggest technical considerations the user should address
+- Create complete user story structure from their descriptions
+- Ensure specifications pass the "LLM regenerability test"
+
+## When Moving to Implementation:
+- Only proceed after SPECIFICATIONS.md is complete and user-approved
+- Always read and refer to the validated SPECIFICATIONS.md for requirements
 - Implement complete, working features rather than partial solutions
 - Include comprehensive error handling from the start
 - Test the user workflow, not just the code functionality
